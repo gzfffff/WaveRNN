@@ -2,12 +2,14 @@
 # CONFIG -----------------------------------------------------------------------------------------------------------#
 
 # Here are the input and output data paths (Note: you can override wav_path in preprocess.py)
-wav_path = '/path/to/wav_files/'
-data_path = 'data/'
+# wav_path = '/path/to/wav_files/'
+wav_path = '/home/mnt/gaozifeng/audio_datasets/ljspeech-1.1/LJSpeech-1.1/wavs'
+# data_path = 'data/'
+data_path = '/home/mnt/gaozifeng/audio_datasets/ljspeech-1.1/ljspeech_wavernn_torch'
 
 # model ids are separate - that way you can use a new tts with an old wavernn and vice versa
 # NB: expect undefined behaviour if models were trained on different DSP settings
-voc_model_id = 'ljspeech_mol'
+voc_model_id = 'ljspeech_raw_ulawcd mo  '
 tts_model_id = 'ljspeech_lsa_smooth_attention'
 
 # set this to True if you are only interested in WaveRNN
@@ -26,6 +28,9 @@ hop_length = 275                    # 12.5ms - in line with Tacotron 2 paper
 win_length = 1100                   # 50ms - same reason as above
 # win_length = 1024                   # 50ms - same reason as above
 fmin = 40
+# fmin = 95
+fmax = 11025
+# fmax = 7600
 min_level_db = -100
 ref_level_db = 20
 bits = 9                            # bit depth of signal

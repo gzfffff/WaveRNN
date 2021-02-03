@@ -54,7 +54,7 @@ def process_wav(path: Path):
     np.save(paths.quant/f'{wav_id}.npy', x, allow_pickle=False)
     return wav_id, m.shape[-1]
 
-
+# 获取数据集中wav文件的绝对路径
 wav_files = get_files(path, extension)
 paths = Paths(hp.data_path, hp.voc_model_id, hp.tts_model_id)
 
