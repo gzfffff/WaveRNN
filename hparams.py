@@ -11,7 +11,7 @@ voc_model_id = 'ljspeech_mol'
 tts_model_id = 'ljspeech_lsa_smooth_attention'
 
 # set this to True if you are only interested in WaveRNN
-ignore_tts = False
+ignore_tts = True
 
 
 # DSP --------------------------------------------------------------------------------------------------------------#
@@ -22,13 +22,15 @@ n_fft = 2048
 fft_bins = n_fft // 2 + 1
 num_mels = 80
 hop_length = 275                    # 12.5ms - in line with Tacotron 2 paper
+# hop_length = 256                    # 12.5ms - in line with Tacotron 2 paper
 win_length = 1100                   # 50ms - same reason as above
+# win_length = 1024                   # 50ms - same reason as above
 fmin = 40
 min_level_db = -100
 ref_level_db = 20
 bits = 9                            # bit depth of signal
 mu_law = True                       # Recommended to suppress noise if using raw bits in hp.voc_mode below
-peak_norm = False                   # Normalise to the peak of each wav file
+peak_norm = True                   # Normalise to the peak of each wav file
 
 
 # WAVERNN / VOCODER ------------------------------------------------------------------------------------------------#
