@@ -61,7 +61,7 @@ def gen_from_file(model: WaveRNN, load_path: Path, save_path: Path, batched, tar
 
     batch_str = f'gen_batched_target{target}_overlap{overlap}' if batched else 'gen_NOT_BATCHED'
     save_str = save_path/f'__{file_name}__{k}k_steps_{batch_str}.wav'
-
+    # model.generate()函数会自动保存生成的wav文件到save_str
     _ = model.generate(mel, save_str, batched, target, overlap, hp.mu_law)
 
 

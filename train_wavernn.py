@@ -68,7 +68,9 @@ def main():
     assert np.cumprod(hp.voc_upsample_factors)[-1] == hp.hop_length
 
     optimizer = optim.Adam(voc_model.parameters())
+    # 恢复最新的checkpoint
     restore_checkpoint('voc', paths, voc_model, optimizer, create_if_missing=True)
+    # restore_checkpoint('voc', paths, voc_model, optimizer, create_if_missing=False)
 
     train_set, test_set = get_vocoder_datasets(paths.data, batch_size, train_gta)
 
@@ -97,6 +99,9 @@ def voc_train_loop(paths: Paths, model: WaveRNN, loss_func, optimizer, train_set
     total_iters = len(train_set)
     epochs = (total_steps - model.get_step()) // total_iters + 1
 
+    # gen_testset(model, test_set, hp.voc_gen_at_checkpoint, hp.voc_gen_batched, 
+        # hp.voc_target, hp.voc_overlap, paths.voc_output)
+
     for e in range(1, epochs + 1):
 
         start = time.time()
@@ -112,13 +117,19 @@ def voc_train_loop(paths: Paths, model: WaveRNN, loss_func, optimizer, train_set
                 y_hat = model(x, m)
 
             if model.mode == 'RAW':
+                # print('y_hat: {}'.format(y_hat.size()))
                 y_hat = y_hat.transpose(1, 2).unsqueeze(-1)
+                # print('y_hat: {}'.format(y_hat.size()))
 
             elif model.mode == 'MOL':
                 y = y.float()
 
             y = y.unsqueeze(-1)
 
+            # print('y: {}, y_hat: {}'.format(y.size(), y_hat.size()))
+
+            # print(y[0, :10, 0])
+            # print(y_hat[0, 0, :10, 0])
 
             loss = loss_func(y_hat, y)
 
@@ -126,7 +137,8 @@ def voc_train_loop(paths: Paths, model: WaveRNN, loss_func, optimizer, train_set
             loss.backward()
             if hp.voc_clip_grad_norm is not None:
                 grad_norm = torch.nn.utils.clip_grad_norm_(model.parameters(), hp.voc_clip_grad_norm)
-                if np.isnan(grad_norm):
+                # print(grad_norm)
+                if np.isnan(grad_norm.item()):
                     print('grad_norm was NaN!')
             optimizer.step()
 

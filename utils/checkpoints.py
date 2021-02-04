@@ -51,15 +51,19 @@ def save_checkpoint(checkpoint_type: str, paths: Paths, model, optimizer, *,
                 'exist, but instead we got exactly one!')
 
         if num_exist == 0:
-            if not is_silent: print(f'Creating {s} checkpoint...')
+            if not is_silent: 
+                print(f'Creating {s} checkpoint...')
             for p in path_dict.values():
                 p.parent.mkdir(parents=True, exist_ok=True)
         else:
-            if not is_silent: print(f'Saving to existing {s} checkpoint...')
+            if not is_silent: 
+                print(f'Saving to existing {s} checkpoint...')
 
-        if not is_silent: print(f'Saving {s} weights: {path_dict["w"]}')
+        if not is_silent: 
+            print(f'Saving {s} weights: {path_dict["w"]}')
         model.save(path_dict['w'])
-        if not is_silent: print(f'Saving {s} optimizer state: {path_dict["o"]}')
+        if not is_silent: 
+            print(f'Saving {s} optimizer state: {path_dict["o"]}')
         torch.save(optimizer.state_dict(), path_dict['o'])
 
     weights_path, optim_path, checkpoint_path = \
